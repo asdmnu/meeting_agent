@@ -1,7 +1,0 @@
-app_name: Meeting Agent
-app_env: development
-api_host: 0.0.0.0
-api_port: 8000
-database_url:
-upload_dir: data/uploads
-log_dir: logs
