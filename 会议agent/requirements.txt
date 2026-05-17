@@ -1,0 +1,12 @@
+fastapi
+pydantic
+python-dotenv
+python-multipart
+pyyaml
+psycopg[binary]
+dashscope
+langchain-community
+langchain-core
+funasr
+torchaudio
+uvicorn[standard]

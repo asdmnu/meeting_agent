@@ -1,0 +1,5 @@
+host: localhost
+port: 5432
+database: meeting_agent
+user: postgres
+password: wcx1907970573

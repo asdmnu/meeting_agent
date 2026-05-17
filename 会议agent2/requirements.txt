@@ -1,0 +1,15 @@
+fastapi
+pydantic
+python-dotenv
+python-multipart
+pyyaml
+psycopg[binary]
+httpx
+mcp
+oss2
+langgraph
+langsmith
+langchain-community
+langchain-core
+streamlit
+uvicorn[standard]

@@ -1,0 +1,6 @@
+speech_to_text:
+  base_url: https://dashscope.aliyuncs.com/api/v1/mcps/SpeechToText/mcp
+  model_name: paraformer-v2
+  tool_name: modelstudio_speech_to_text
+  language_hints:
+    - zh

@@ -1,0 +1,14 @@
+provider: funasr
+model: paraformer-zh
+model_revision: v2.0.4
+use_vad: false
+vad_model: fsmn-vad
+vad_model_revision: v2.0.4
+use_punc: false
+punc_model: ct-punc
+punc_model_revision: v2.0.4
+device: cpu
+hub: ms
+disable_update: true
+batch_size_s: 60
+ncpu: 4

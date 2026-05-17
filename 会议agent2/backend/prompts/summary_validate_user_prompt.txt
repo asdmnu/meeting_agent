@@ -1,0 +1,10 @@
+请检查下面的会议结构化结果。
+
+最近会议记忆（仅用于辅助识别是否混入历史会议内容，禁止把历史会议信息当作当前会议事实）：
+{recent_meetings_context}
+
+会议文本：
+{clean_transcript_text}
+
+结构化结果：
+{summary_json}
