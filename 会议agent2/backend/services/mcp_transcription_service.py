@@ -6,14 +6,18 @@ import os
 
 from mcp import ClientSession
 from mcp.client.streamable_http import streamablehttp_client
+
 from backend.core.config import load_mcp_config
 
 
 class MCPTranscriptionService:
+    """Speech-to-text client backed by an MCP tool call."""
+
     def __init__(self) -> None:
         self._config = load_mcp_config()["speech_to_text"]
 
     async def _transcribe_async(self, file_url: str) -> str:
+        """Call the remote MCP speech-to-text tool."""
         headers = {"Authorization": f"Bearer {self._get_api_key()}"}
         async with streamablehttp_client(self._config["base_url"], headers=headers, timeout=300) as (
             read_stream,
@@ -33,6 +37,7 @@ class MCPTranscriptionService:
         return self._extract_text(result)
 
     def _extract_text(self, result) -> str:
+        """Normalize tool output into a plain transcript string."""
         content = getattr(result, "content", None)
         if isinstance(content, list):
             text_parts = []
@@ -56,6 +61,7 @@ class MCPTranscriptionService:
         return self._extract_text_from_string(str(result).strip())
 
     def _extract_text_from_string(self, value: str) -> str:
+        """Try to parse plain or JSON-encoded transcription output."""
         value = value.strip()
         if not value:
             return ""
@@ -67,6 +73,7 @@ class MCPTranscriptionService:
         return normalized or value
 
     def _extract_text_from_payload(self, payload) -> str:
+        """Recursively extract transcript text from nested payloads."""
         if isinstance(payload, dict):
             results = payload.get("results")
             if isinstance(results, list):
@@ -88,12 +95,14 @@ class MCPTranscriptionService:
         return ""
 
     def _get_api_key(self) -> str:
-        api_key = os.getenv("DASHSCOPE_API_KEY", "")
+        """Read the required MCP API key from the environment."""
+        api_key = os.getenv("MCP_API_KEY", "").strip()
         if not api_key:
-            raise ValueError("Missing DASHSCOPE_API_KEY")
+            raise ValueError("Missing MCP_API_KEY in .env")
         return api_key
 
     def transcribe_audio(self, file_url: str) -> str:
+        """Synchronously transcribe one remote audio file."""
         return asyncio.run(self._transcribe_async(file_url))
 
 

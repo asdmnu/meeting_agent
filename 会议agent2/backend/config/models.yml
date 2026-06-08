@@ -1,1 +1,2 @@
-chat_model_name: qwen-max
+chat_model_name: qwen-turbo
+embedding_model_name: text-embedding-v3

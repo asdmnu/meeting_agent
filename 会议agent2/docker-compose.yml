@@ -6,15 +6,15 @@ services:
     container_name: meeting-agent2-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-meeting_agent2}
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: meeting_agent2
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-meeting_agent2}"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d meeting_agent2"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -25,12 +25,7 @@ services:
       dockerfile: Dockerfile
     container_name: meeting-agent2-api
     restart: unless-stopped
-    env_file:
-      - .env
-    environment:
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
-    command: uvicorn backend.api.api_server:app --host 0.0.0.0 --port 8000
+    command: uvicorn backend.app.api_server:app --host 0.0.0.0 --port 8000
     ports:
       - "8000:8000"
     depends_on:
@@ -51,11 +46,7 @@ services:
       dockerfile: Dockerfile
     container_name: meeting-agent2-frontend
     restart: unless-stopped
-    env_file:
-      - .env
-    environment:
-      MEETING_AGENT_API_BASE_URL: http://api:8000
-    command: streamlit run streamlit_app.py --server.address 0.0.0.0 --server.port 8501
+    command: streamlit run frontend/app.py --server.address 0.0.0.0 --server.port 8501
     ports:
       - "8501:8501"
     depends_on:
