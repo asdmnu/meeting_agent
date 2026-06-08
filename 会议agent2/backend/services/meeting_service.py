@@ -16,7 +16,7 @@ from backend.stores.meeting_store import MeetingStore
 
 
 class MeetingService:
-    """Application service for meeting upload, transcription, and lookup."""
+    """处理会议上传、转写和查询的应用服务。"""
 
     def __init__(self) -> None:
         app_config = load_app_config()
@@ -25,7 +25,7 @@ class MeetingService:
         self._meeting_store = MeetingStore()
 
     def get_meeting(self, meeting_id: str) -> MeetingDetail | None:
-        """Return one meeting task by id."""
+        """根据 ID 返回单个会议任务。"""
         meeting = self._meeting_store.get_meeting(meeting_id)
         if meeting is None:
             return None
@@ -48,7 +48,7 @@ class MeetingService:
         meeting_category: str,
         audio_file: UploadFile,
     ) -> MeetingUploadResponse:
-        """Persist one upload locally and remotely, then create a task row."""
+        """将上传文件保存到本地和远端，并创建任务记录。"""
         del organizer
         normalized_category = meeting_category.strip()
 
@@ -79,7 +79,7 @@ class MeetingService:
         )
 
     def transcribe_meeting_audio(self, meeting_id: str) -> MeetingTranscribeResponse:
-        """Fetch one uploaded file from OSS and store the transcript."""
+        """从 OSS 获取已上传文件并保存转写结果。"""
         meeting = self._meeting_store.get_meeting(meeting_id)
         if meeting is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Meeting not found")
@@ -134,7 +134,7 @@ class MeetingService:
         )
 
     def _clean_transcript_text(self, transcript_text: str) -> str:
-        """Apply lightweight cleanup and only persist the cleaned transcript."""
+        """进行轻量清洗，并且只保存清洗后的转写内容。"""
         text = transcript_text.replace("\r\n", "\n").replace("\r", "\n").strip()
         text = re.sub(r"[ \t]+", " ", text)
         text = re.sub(r"\n{3,}", "\n\n", text)

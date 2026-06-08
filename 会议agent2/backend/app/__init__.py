@@ -1,1 +1,1 @@
-"""Application entrypoints and API schemas."""
+"""应用入口与 API 模型。"""

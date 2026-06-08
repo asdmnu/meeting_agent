@@ -1,1 +1,1 @@
-"""Legacy workflow package kept for compatibility."""
+"""为兼容性保留的旧工作流包。"""

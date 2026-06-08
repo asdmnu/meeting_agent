@@ -6,13 +6,13 @@ import oss2
 
 
 class OSSService:
-    """Small wrapper around OSS file upload and signed download URLs."""
+    """对 OSS 文件上传和签名下载链接的轻量封装。"""
 
     def __init__(self) -> None:
         self._bucket = None
 
     def _get_bucket(self):
-        """Lazily initialize and cache the OSS bucket client."""
+        """延迟初始化并缓存 OSS Bucket 客户端。"""
         if self._bucket is None:
             access_key_id = os.getenv("OSS_ACCESS_KEY_ID", "").strip()
             access_key_secret = os.getenv("OSS_ACCESS_KEY_SECRET", "").strip()
@@ -25,12 +25,12 @@ class OSSService:
         return self._bucket
 
     def upload_file(self, local_path: str, object_key: str) -> str:
-        """Upload one local file to OSS."""
+        """上传单个本地文件到 OSS。"""
         self._get_bucket().put_object_from_file(object_key, local_path)
         return object_key
 
     def signed_get_url(self, object_key: str, expires_seconds: int = 3600) -> str:
-        """Generate a temporary download URL for one OSS object."""
+        """为单个 OSS 对象生成临时下载链接。"""
         return self._get_bucket().sign_url("GET", object_key, expires_seconds)
 
 

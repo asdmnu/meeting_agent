@@ -1,4 +1,4 @@
-"""Meeting analysis graph ending with the final summary node."""
+"""以最终总结节点结束的会议分析图。"""
 
 from langgraph.graph import END, START, StateGraph
 
@@ -15,7 +15,7 @@ from backend.flows.meeting_analysis.state import MeetingAnalysisState
 
 
 def build_meeting_analysis_graph():
-    """Build the meeting analysis graph with summary generation."""
+    """构建带总结生成能力的会议分析图。"""
     graph_builder = StateGraph(MeetingAnalysisState)
     graph_builder.add_node("prepare", prepare)
     graph_builder.add_node("content_agent", content_agent)

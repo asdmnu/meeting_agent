@@ -1,4 +1,4 @@
-"""Model factory modeled after customer-agent3."""
+"""模型工厂。"""
 
 from pathlib import Path
 
@@ -19,7 +19,7 @@ MODEL_CONFIG = load_model_config()
 
 
 def get_required_env(key: str) -> str:
-    """Read a required value from .env."""
+    """从 .env 中读取必需的配置值。"""
     value = ENV_CONFIG.get(key, "")
     if not value:
         raise ValueError(f"Missing required config in .env: {key}")
@@ -27,7 +27,7 @@ def get_required_env(key: str) -> str:
 
 
 class DashScopeEmbeddings(Embeddings):
-    """Minimal DashScope embedding wrapper."""
+    """最小化的 DashScope 向量封装。"""
 
     batch_size = 8
 
@@ -69,10 +69,10 @@ embedding_model = DashScopeEmbeddings(
 
 
 def get_chat_model() -> BaseChatModel:
-    """Return the shared chat model instance."""
+    """返回共享的聊天模型实例。"""
     return chat_model
 
 
 def get_embedding_model() -> Embeddings:
-    """Return the shared embedding model instance."""
+    """返回共享的向量模型实例。"""
     return embedding_model

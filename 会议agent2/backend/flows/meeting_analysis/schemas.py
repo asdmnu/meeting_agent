@@ -1,4 +1,4 @@
-"""Structured output schemas for meeting analysis nodes."""
+"""会议分析节点的结构化输出模型。"""
 
 from typing import Literal
 
@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 
 
 class ActionItem(BaseModel):
-    """One extracted action item."""
+    """单个提取出的行动项。"""
 
     task: str = Field(default="")
     owner: str = Field(default="")
@@ -14,7 +14,7 @@ class ActionItem(BaseModel):
 
 
 class ContentAnalysisResult(BaseModel):
-    """Structured content extraction result."""
+    """结构化内容提取结果。"""
 
     meeting_topic: str = Field(default="")
     summary: str = Field(default="")
@@ -23,14 +23,14 @@ class ContentAnalysisResult(BaseModel):
 
 
 class TaskAnalysisResult(BaseModel):
-    """Structured task extraction result."""
+    """结构化任务提取结果。"""
 
     action_items: list[ActionItem] = Field(default_factory=list)
     next_steps: list[str] = Field(default_factory=list)
 
 
 class RiskAnalysisResult(BaseModel):
-    """Structured risk extraction result."""
+    """结构化风险提取结果。"""
 
     risks: list[str] = Field(default_factory=list)
     blockers: list[str] = Field(default_factory=list)
@@ -38,7 +38,7 @@ class RiskAnalysisResult(BaseModel):
 
 
 class RagDecisionResult(BaseModel):
-    """Structured output for the RAG decision node."""
+    """RAG 决策节点的结构化输出。"""
 
     needs_rag: bool = Field(default=False)
     rag_queries: list[str] = Field(default_factory=list)
@@ -46,6 +46,6 @@ class RagDecisionResult(BaseModel):
 
 
 class SummaryResult(BaseModel):
-    """Structured output for the final summary node."""
+    """最终总结节点的结构化输出。"""
 
     summary_text: str = Field(default="")

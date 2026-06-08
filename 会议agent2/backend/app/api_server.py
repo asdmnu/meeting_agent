@@ -1,4 +1,4 @@
-"""FastAPI service entrypoint."""
+"""FastAPI 服务入口。"""
 
 from pathlib import Path
 
@@ -23,13 +23,13 @@ app = FastAPI(title=app_config["app_name"], version="0.2.0")
 
 @app.on_event("startup")
 def on_startup() -> None:
-    """Initialize database tables on service startup."""
+    """在服务启动时初始化数据库表。"""
     ensure_meeting_tables()
 
 
 @app.get("/health")
 def health() -> dict[str, str]:
-    """Health check endpoint."""
+    """健康检查接口。"""
     return {"status": "ok"}
 
 
@@ -40,7 +40,7 @@ def upload_meeting(
     meeting_category: str = Form(""),
     audio_file: UploadFile = File(...),
 ) -> MeetingUploadResponse:
-    """Create a meeting task and upload the original media file."""
+    """创建会议任务并上传原始媒体文件。"""
     return meeting_service.upload_meeting(
         title=title,
         organizer=organizer,
@@ -51,13 +51,13 @@ def upload_meeting(
 
 @app.post("/meetings/{meeting_id}/transcribe", response_model=MeetingTranscribeResponse)
 def transcribe_meeting_audio(meeting_id: str) -> MeetingTranscribeResponse:
-    """Run transcription for one uploaded meeting."""
+    """为单个已上传会议执行转写。"""
     return meeting_service.transcribe_meeting_audio(meeting_id)
 
 
 @app.get("/meetings/{meeting_id}", response_model=MeetingDetail)
 def get_meeting(meeting_id: str) -> MeetingDetail:
-    """Read one meeting task by id."""
+    """根据 ID 读取单个会议任务。"""
     meeting = meeting_service.get_meeting(meeting_id)
     if meeting is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Meeting not found")

@@ -1,4 +1,4 @@
-"""Node implementations for the meeting analysis workflow."""
+"""会议分析工作流的节点实现。"""
 
 import json
 from functools import lru_cache
@@ -25,7 +25,7 @@ from backend.tools import search_meeting_knowledge
 
 
 def prepare(state: MeetingAnalysisState) -> MeetingAnalysisState:
-    """Initialize graph state from the input transcript."""
+    """根据输入的转写内容初始化图状态。"""
     meeting_id = str(state.get("meeting_id", "")).strip()
     meeting_category = str(state.get("meeting_category", "")).strip()
     transcript_text = str(state.get("transcript_text", "")).strip()
@@ -49,7 +49,7 @@ def prepare(state: MeetingAnalysisState) -> MeetingAnalysisState:
 
 
 def content_agent(state: MeetingAnalysisState) -> MeetingAnalysisState:
-    """Extract the main meeting content into a structured result."""
+    """将会议主要内容提取为结构化结果。"""
     transcript_text = str(state.get("transcript_text", "")).strip()
     prompt_template = load_content_prompt()
     prompt = prompt_template.format(transcript_text=transcript_text)
@@ -63,7 +63,7 @@ def content_agent(state: MeetingAnalysisState) -> MeetingAnalysisState:
 
 
 def task_agent(state: MeetingAnalysisState) -> MeetingAnalysisState:
-    """Extract action items and next steps into a structured result."""
+    """将行动项和后续步骤提取为结构化结果。"""
     transcript_text = str(state.get("transcript_text", "")).strip()
     prompt_template = load_task_prompt()
     prompt = prompt_template.format(transcript_text=transcript_text)
@@ -77,7 +77,7 @@ def task_agent(state: MeetingAnalysisState) -> MeetingAnalysisState:
 
 
 def risk_agent(state: MeetingAnalysisState) -> MeetingAnalysisState:
-    """Extract risks, blockers, and open questions into a structured result."""
+    """将风险、阻塞项和开放问题提取为结构化结果。"""
     transcript_text = str(state.get("transcript_text", "")).strip()
     prompt_template = load_risk_prompt()
     prompt = prompt_template.format(transcript_text=transcript_text)
@@ -91,7 +91,7 @@ def risk_agent(state: MeetingAnalysisState) -> MeetingAnalysisState:
 
 
 def aggregate(state: MeetingAnalysisState) -> MeetingAnalysisState:
-    """Merge the three parallel analysis outputs into one aggregated object."""
+    """将三个并行分析结果合并为一个聚合对象。"""
     merged_result = {
         "content_result": state.get("content_result", {}),
         "task_result": state.get("task_result", {}),
@@ -104,7 +104,7 @@ def aggregate(state: MeetingAnalysisState) -> MeetingAnalysisState:
 
 @lru_cache(maxsize=1)
 def build_rag_agent():
-    """Build the shared RAG create-agent instance."""
+    """构建共享的 RAG create-agent 实例。"""
     return create_agent(
         model=get_chat_model(),
         tools=[search_meeting_knowledge],
@@ -115,7 +115,7 @@ def build_rag_agent():
 
 
 def rag_decider_agent(state: MeetingAnalysisState) -> MeetingAnalysisState:
-    """Run the real RAG agent with retrieval tool access."""
+    """运行可访问检索工具的 RAG 智能体。"""
     prompt = load_rag_decider_prompt().format(
         content_result=json.dumps(state.get("content_result", {}), ensure_ascii=False, indent=2),
         task_result=json.dumps(state.get("task_result", {}), ensure_ascii=False, indent=2),
@@ -143,7 +143,7 @@ def rag_decider_agent(state: MeetingAnalysisState) -> MeetingAnalysisState:
 
 
 def summary_agent(state: MeetingAnalysisState) -> MeetingAnalysisState:
-    """Generate the final meeting summary from analysis outputs and RAG context."""
+    """基于分析结果和 RAG 上下文生成最终会议总结。"""
     prompt = load_summary_prompt().format(
         content_result=json.dumps(state.get("content_result", {}), ensure_ascii=False, indent=2),
         task_result=json.dumps(state.get("task_result", {}), ensure_ascii=False, indent=2),

@@ -1,4 +1,4 @@
-"""Load .txt knowledge files, split them, and write chunks into pgvector."""
+"""加载 .txt 知识文件，切分后写入 pgvector。"""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ DATA_DIR = Path(get_abs_path("data/knowledge"))
 
 
 def load_source_documents() -> list[Document]:
-    """Read supported knowledge files from data/knowledge."""
+    """从 data/knowledge 读取受支持的知识文件。"""
     documents: list[Document] = []
     allow_types = {item.lower().lstrip(".") for item in RAG_CONFIG["allow_knowledge_file_type"]}
 
@@ -50,7 +50,7 @@ def load_source_documents() -> list[Document]:
 
 
 def split_documents(documents: list[Document]) -> list[Document]:
-    """Split documents according to rag.yml settings."""
+    """按照 rag.yml 配置切分文档。"""
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=int(RAG_CONFIG["chunk_size"]),
         chunk_overlap=int(RAG_CONFIG["chunk_overlap"]),
@@ -67,7 +67,7 @@ def split_documents(documents: list[Document]) -> list[Document]:
 
 
 def ingest_documents(chunks: list[Document], vector_store: PGVectorStore) -> None:
-    """Write chunks into the pgvector table."""
+    """将文本分块写入 pgvector 数据表。"""
     if not chunks:
         print("No knowledge chunks to ingest.")
         return

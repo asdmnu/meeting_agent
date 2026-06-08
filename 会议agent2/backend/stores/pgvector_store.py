@@ -1,4 +1,4 @@
-"""Minimal PostgreSQL + pgvector store for knowledge ingestion and retrieval."""
+"""用于知识写入与检索的精简 PostgreSQL + pgvector 存储层。"""
 
 from __future__ import annotations
 
@@ -50,7 +50,7 @@ class SearchHit:
 
 
 class PGVectorStore:
-    """Minimal pgvector store for knowledge chunk ingestion and retrieval."""
+    """用于知识分块写入与检索的精简 pgvector 存储层。"""
 
     def __init__(self):
         raw_config = load_postgres_config()

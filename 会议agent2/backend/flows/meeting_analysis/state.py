@@ -1,10 +1,10 @@
-"""State definitions for the meeting analysis workflow."""
+"""会议分析工作流的状态定义。"""
 
 from typing import Any, TypedDict
 
 
 class MeetingAnalysisState(TypedDict, total=False):
-    """Shared state passed between meeting analysis nodes."""
+    """在会议分析节点之间传递的共享状态。"""
 
     meeting_id: str
     meeting_category: str

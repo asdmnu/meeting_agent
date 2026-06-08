@@ -1,4 +1,4 @@
-"""Pydantic schemas for the meeting transcription API."""
+"""会议转写 API 的 Pydantic 模型。"""
 
 from datetime import datetime
 from typing import Literal
@@ -10,7 +10,7 @@ MeetingStatus = Literal["uploaded", "transcribed", "failed"]
 
 
 class MeetingUploadResponse(BaseModel):
-    """Response returned after a meeting file is uploaded."""
+    """上传会议文件后返回的响应。"""
 
     meeting_id: str = Field(...)
     title: str = Field(...)
@@ -21,7 +21,7 @@ class MeetingUploadResponse(BaseModel):
 
 
 class MeetingTranscribeResponse(BaseModel):
-    """Response returned after transcription finishes."""
+    """转写完成后返回的响应。"""
 
     meeting_id: str = Field(...)
     status: MeetingStatus = Field(...)
@@ -30,7 +30,7 @@ class MeetingTranscribeResponse(BaseModel):
 
 
 class MeetingDetail(BaseModel):
-    """Detailed meeting task state for query pages."""
+    """供查询页面使用的会议任务详细状态。"""
 
     meeting_id: str = Field(...)
     title: str = Field(...)

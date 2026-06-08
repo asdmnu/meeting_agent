@@ -2,7 +2,7 @@ import os
 
 
 def get_project_root() -> str:
-    """Return the repository root based on this file location."""
+    """根据当前文件位置返回仓库根目录。"""
     current_file = os.path.abspath(__file__)
     current_dir = os.path.dirname(current_file)
     backend_dir = os.path.dirname(current_dir)
@@ -10,5 +10,5 @@ def get_project_root() -> str:
 
 
 def get_abs_path(relative_path: str) -> str:
-    """Resolve a repository-relative path to an absolute path."""
+    """将仓库相对路径解析为绝对路径。"""
     return os.path.join(get_project_root(), relative_path)

@@ -1,4 +1,4 @@
-# Meeting Agent 2
+# 会议助手 2
 
 Meeting Agent 2 当前聚焦会议音视频的上传、转写和查询，提供一条尽量简单的识别结果链路。项目后端基于 FastAPI，前端基于 Streamlit，使用 PostgreSQL 持久化任务数据，并通过 OSS + MCP 完成语音转写。
 

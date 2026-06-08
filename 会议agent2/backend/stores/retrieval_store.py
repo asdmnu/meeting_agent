@@ -1,4 +1,4 @@
-"""Knowledge retrieval layer for the meeting project."""
+"""会议项目的知识检索层。"""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ RAG_CONFIG = load_rag_config()
 
 
 class RetrievalStore:
-    """Wrap pgvector search and normalize returned fields."""
+    """封装 pgvector 搜索并规范化返回字段。"""
 
     def __init__(self):
         self.top_k = int(RAG_CONFIG["top_k"])
@@ -25,7 +25,7 @@ class RetrievalStore:
         return self._vector_store
 
     def search(self, query: str, top_k: int | None = None) -> list[dict[str, str]]:
-        """Run hybrid retrieval and return a lightweight result structure."""
+        """执行混合检索并返回轻量结果结构。"""
         documents = self.vector_store.hybrid_search(query, k=top_k or self.top_k)
         return [self._document_to_dict(document) for document in documents]
 

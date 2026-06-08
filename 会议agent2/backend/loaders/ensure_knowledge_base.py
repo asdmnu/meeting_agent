@@ -1,4 +1,4 @@
-"""Initialize the pgvector knowledge base when it is still empty."""
+"""在 pgvector 知识库仍为空时完成初始化。"""
 
 from backend.loaders.pgvector_ingest import ingest_documents, load_source_documents, split_documents
 from backend.stores.pgvector_store import PGVectorStore

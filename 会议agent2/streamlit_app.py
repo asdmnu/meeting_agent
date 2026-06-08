@@ -1,4 +1,4 @@
-"""Compatibility wrapper for the new frontend entrypoint."""
+"""新前端入口的兼容包装层。"""
 
 from frontend.app import main
 

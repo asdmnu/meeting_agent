@@ -10,7 +10,7 @@ from backend.core.config import load_postgres_config
 
 @dataclass(slots=True)
 class MeetingRow:
-    """Database row mapped from the meetings table."""
+    """由 meetings 表映射而来的数据库记录。"""
 
     meeting_id: str
     title: str
@@ -27,7 +27,7 @@ class MeetingRow:
 
 
 class MeetingStore:
-    """Persistence layer for meeting task records."""
+    """会议任务记录的持久化层。"""
 
     def __init__(self) -> None:
         raw_config = load_postgres_config()
@@ -46,7 +46,7 @@ class MeetingStore:
         )
 
     def _connect(self):
-        """Open a PostgreSQL connection."""
+        """打开 PostgreSQL 连接。"""
         last_error = None
         for host in self.hosts:
             try:
@@ -66,7 +66,7 @@ class MeetingStore:
         stored_file_path: str,
         oss_object_key: str,
     ) -> MeetingRow:
-        """Insert one new meeting task."""
+        """插入一条新的会议任务记录。"""
         created_at = datetime.now(timezone.utc)
         with self._connect() as connection:
             with connection.cursor() as cursor:
@@ -106,7 +106,7 @@ class MeetingStore:
         )
 
     def get_meeting(self, meeting_id: str) -> MeetingRow | None:
-        """Read one meeting task by id."""
+        """根据 ID 读取单个会议任务。"""
         with self._connect() as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
@@ -129,7 +129,7 @@ class MeetingStore:
         status: str,
         error_message: str = "",
     ) -> MeetingRow | None:
-        """Update the transcription result for one meeting task."""
+        """更新单个会议任务的转写结果。"""
         updated_at = datetime.now(timezone.utc)
         with self._connect() as connection:
             with connection.cursor() as cursor:
@@ -148,7 +148,7 @@ class MeetingStore:
         return None if row is None else self._build_meeting_row(row)
 
     def update_summary_result(self, meeting_id: str, summary_text: str) -> MeetingRow | None:
-        """Persist the generated summary for one meeting task."""
+        """保存单个会议任务生成的总结。"""
         updated_at = datetime.now(timezone.utc)
         with self._connect() as connection:
             with connection.cursor() as cursor:
@@ -172,7 +172,7 @@ class MeetingStore:
         current_meeting_id: str,
         limit: int = 2,
     ) -> list[str]:
-        """Return recent non-empty summaries from the same meeting category."""
+        """返回同一会议分类下最近的非空总结。"""
         normalized_category = meeting_category.strip()
         if not normalized_category:
             return []
@@ -195,7 +195,7 @@ class MeetingStore:
         return [str(row[0]).strip() for row in rows if row and str(row[0]).strip()]
 
     def _build_meeting_row(self, row) -> MeetingRow:
-        """Convert a database tuple into a MeetingRow."""
+        """将数据库元组转换为 MeetingRow。"""
         return MeetingRow(
             meeting_id=row[0],
             title=row[1],

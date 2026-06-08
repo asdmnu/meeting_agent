@@ -1,4 +1,4 @@
-# Meeting Agent 2
+# 会议助手 2
 
 Meeting Agent 2 是一个面向会议场景的智能纪要项目，提供上传、转写、总结和查询的完整链路。项目后端基于 FastAPI，前端基于 Streamlit，使用 PostgreSQL 持久化任务数据，并通过 OSS + MCP 完成语音转写。
 

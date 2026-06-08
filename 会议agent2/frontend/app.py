@@ -1,4 +1,4 @@
-"""Streamlit demo page for meeting transcription."""
+"""会议转写的 Streamlit 演示页面。"""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ from backend.core.config import load_frontend_config
 
 
 def resolve_api_base_url() -> str:
-    """Return the first reachable API base URL from config."""
+    """返回配置中第一个可访问的 API 基础地址。"""
     config = load_frontend_config()
     candidates = config.get("api_base_urls", [])
     for base_url in candidates:
@@ -37,7 +37,7 @@ API_BASE_URL = resolve_api_base_url()
 
 
 def upload_meeting(title: str, organizer: str, meeting_category: str, uploaded_file) -> dict:
-    """Upload one meeting media file and create a task."""
+    """上传单个会议媒体文件并创建任务。"""
     files = {
         "audio_file": (
             uploaded_file.name,
@@ -52,21 +52,21 @@ def upload_meeting(title: str, organizer: str, meeting_category: str, uploaded_f
 
 
 def transcribe_meeting(meeting_id: str) -> dict:
-    """Trigger transcription for one meeting task."""
+    """触发单个会议任务的转写。"""
     response = requests.post(f"{API_BASE_URL}/meetings/{meeting_id}/transcribe", timeout=1800)
     response.raise_for_status()
     return response.json()
 
 
 def get_meeting(meeting_id: str) -> dict:
-    """Query one meeting task."""
+    """查询单个会议任务。"""
     response = requests.get(f"{API_BASE_URL}/meetings/{meeting_id}", timeout=60)
     response.raise_for_status()
     return response.json()
 
 
 def render_meeting_detail(detail: dict) -> None:
-    """Render one meeting task detail panel."""
+    """渲染单个会议任务的详情面板。"""
     st.subheader("Task Overview")
     col1, col2, col3 = st.columns(3)
     col1.metric("Status", detail.get("status", "-"))
@@ -77,7 +77,7 @@ def render_meeting_detail(detail: dict) -> None:
 
     st.caption(f"Meeting ID: `{detail.get('meeting_id', '')}`")
 
-    st.markdown("### Summary")
+    st.markdown("### 总结")
     st.text_area(
         "summary_text",
         detail.get("summary_text", ""),
@@ -85,7 +85,7 @@ def render_meeting_detail(detail: dict) -> None:
         label_visibility="collapsed",
     )
 
-    st.markdown("### Transcript")
+    st.markdown("### 转写内容")
     st.text_area(
         "transcript_text",
         detail.get("transcript_text", ""),
@@ -99,7 +99,7 @@ def render_meeting_detail(detail: dict) -> None:
 
 
 def main() -> None:
-    """Render the Streamlit application."""
+    """渲染 Streamlit 应用。"""
     st.set_page_config(page_title="Meeting Agent 2", layout="wide")
     st.title("Meeting Agent 2")
     st.caption("Upload audio, run transcription, and review the recognized transcript.")
